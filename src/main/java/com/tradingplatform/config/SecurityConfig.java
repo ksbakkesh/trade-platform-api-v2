@@ -53,6 +53,9 @@ public class SecurityConfig {
                 // Public — login and register
                 .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/auth/register").permitAll()
+                .requestMatchers("/api/test/**").permitAll()
+                .requestMatchers("/api/broker/**").permitAll()
+                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 // Everything else requires a valid JWT
                 .anyRequest().authenticated()
             )
