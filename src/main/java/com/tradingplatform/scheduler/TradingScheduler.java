@@ -20,6 +20,7 @@ import com.tradingplatform.repository.PositionRepository;
 import com.tradingplatform.repository.StrategySettingsRepository;
 import com.tradingplatform.repository.TradeRepository;
 import com.tradingplatform.market.OptionDataService;
+import com.tradingplatform.notification.NotificationService;
 import com.tradingplatform.strategy.gann.GannCalculationService;
 import com.tradingplatform.strategy.gann.GannLevels;
 import com.tradingplatform.signal.MarketSnapshot;
@@ -82,6 +83,7 @@ public class TradingScheduler {
     private final ReEntryService reEntryService;
     private final OptionDataService optionDataService;
     private final GannCalculationService gannCalculationService;
+    private final NotificationService notificationService;
 
     public TradingScheduler(BrokerAccountRepository brokerAccountRepository,
                              StrategySettingsRepository strategySettingsRepository,
@@ -94,7 +96,8 @@ public class TradingScheduler {
                              ExitStrategyService exitStrategyService,
                              ReEntryService reEntryService,
                              OptionDataService optionDataService,
-                             GannCalculationService gannCalculationService) {
+                             GannCalculationService gannCalculationService,
+                             NotificationService notificationService) {
         this.brokerAccountRepository = brokerAccountRepository;
         this.strategySettingsRepository = strategySettingsRepository;
         this.positionRepository = positionRepository;
@@ -107,6 +110,7 @@ public class TradingScheduler {
         this.reEntryService = reEntryService;
         this.optionDataService = optionDataService;
         this.gannCalculationService = gannCalculationService;
+        this.notificationService = notificationService;
     }
 
     /**
@@ -248,6 +252,7 @@ public class TradingScheduler {
                     signal, account, snapshot.ltp(), capital, false, false);
 
             if (result.executed()) {
+                notificationService.tradePlaced(account, result.trade());
                 log.info("[Account {}][{}] ✅ Trade placed! orderId={} symbol={}",
                         account.getId(), index,
                         result.trade().getBrokerOrderId(),
