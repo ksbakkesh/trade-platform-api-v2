@@ -89,6 +89,23 @@ public class AngelOneMarketClient {
         return response.getData();
     }
 
+    /**
+     * Fetches today's order book from Angel One.
+     * Returns raw JSON list of orders.
+     */
+    public java.util.List<java.util.Map<String, Object>> getOrderBook() {
+        authClient.ensureLoggedIn();
+
+        AngelOneApiResponse<java.util.List<java.util.Map<String, Object>>> response = restClient.get()
+                .uri("/rest/secure/angelbroking/order/v1/getOrderBook")
+                .header("Authorization", "Bearer " + tokenStore.getJwtToken())
+                .retrieve()
+                .body(new ParameterizedTypeReference<AngelOneApiResponse<java.util.List<java.util.Map<String, Object>>>>() {});
+
+        if (response == null || response.getData() == null) return java.util.List.of();
+        return response.getData();
+    }
+
     private void requireSuccess(AngelOneApiResponse<?> response, String contextMessage) {
         if (response == null || !response.isStatus()) {
             String message = response != null ? response.getMessage() : "null response";

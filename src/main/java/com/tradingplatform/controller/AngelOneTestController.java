@@ -63,4 +63,9 @@ public class AngelOneTestController {
     public Object funds() {
         return marketClient.getFunds();
     }
+
+    @GetMapping("/api/test/angelone/orders")
+    public Object orders() {
+        return marketClient.getOrderBook();
+    }
 }
