@@ -8,6 +8,7 @@ com/tradingplatform/api/StrategySettingsController$StrategySettingsRequest.class
 com/tradingplatform/api/UserManagementController$UserResponse.class
 com/tradingplatform/auth/JwtService.class
 com/tradingplatform/angelone/dto/AngelOneApiResponse.class
+com/tradingplatform/api/NotificationController.class
 com/tradingplatform/trade/TradeResponse.class
 com/tradingplatform/api/BrokerController.class
 com/tradingplatform/position/IndexLotSize.class
@@ -17,6 +18,7 @@ com/tradingplatform/api/StrategySettingsController$StrategySettingsResponse.clas
 com/tradingplatform/domain/enums/ExitReason.class
 com/tradingplatform/signal/SignalGenerationService.class
 com/tradingplatform/position/FundValidationResult.class
+com/tradingplatform/domain/Notification.class
 com/tradingplatform/TradingPlatformApplication.class
 com/tradingplatform/repository/StrategySettingsRepository.class
 com/tradingplatform/exit/ExitResult$ExitAction.class
@@ -45,6 +47,7 @@ com/tradingplatform/repository/DailyPnlRepository.class
 com/tradingplatform/api/PositionDashboardController$PositionSummary.class
 com/tradingplatform/position/PositionSizingService.class
 com/tradingplatform/signal/SignalResponse.class
+com/tradingplatform/notification/NotificationService.class
 com/tradingplatform/controller/ApiExceptionHandler.class
 com/tradingplatform/angelone/dto/LoginResponseData.class
 com/tradingplatform/angelone/TotpGenerator.class
@@ -117,6 +120,7 @@ com/tradingplatform/controller/PositionSizingTestController.class
 com/tradingplatform/angelone/AngelOneMarketClient.class
 com/tradingplatform/risk/IndianMarketClock.class
 com/tradingplatform/signal/SignalGenerationService$1.class
+com/tradingplatform/repository/NotificationRepository.class
 com/tradingplatform/controller/ExitStrategyTestController.class
 com/tradingplatform/angelone/dto/LoginRequest.class
 com/tradingplatform/api/RiskDashboardController.class

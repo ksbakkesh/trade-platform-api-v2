@@ -17,6 +17,7 @@
 /Applications/codebase/trade-platform-api-new/src/main/java/com/tradingplatform/angelone/dto/RefreshTokenRequest.java
 /Applications/codebase/trade-platform-api-new/src/main/java/com/tradingplatform/api/BrokerController.java
 /Applications/codebase/trade-platform-api-new/src/main/java/com/tradingplatform/api/MarketOverviewController.java
+/Applications/codebase/trade-platform-api-new/src/main/java/com/tradingplatform/api/NotificationController.java
 /Applications/codebase/trade-platform-api-new/src/main/java/com/tradingplatform/api/PositionDashboardController.java
 /Applications/codebase/trade-platform-api-new/src/main/java/com/tradingplatform/api/RiskDashboardController.java
 /Applications/codebase/trade-platform-api-new/src/main/java/com/tradingplatform/api/RiskSettingsController.java
@@ -44,6 +45,7 @@
 /Applications/codebase/trade-platform-api-new/src/main/java/com/tradingplatform/domain/BrokerAccount.java
 /Applications/codebase/trade-platform-api-new/src/main/java/com/tradingplatform/domain/DailyPnl.java
 /Applications/codebase/trade-platform-api-new/src/main/java/com/tradingplatform/domain/FundManagement.java
+/Applications/codebase/trade-platform-api-new/src/main/java/com/tradingplatform/domain/Notification.java
 /Applications/codebase/trade-platform-api-new/src/main/java/com/tradingplatform/domain/Position.java
 /Applications/codebase/trade-platform-api-new/src/main/java/com/tradingplatform/domain/RiskSettings.java
 /Applications/codebase/trade-platform-api-new/src/main/java/com/tradingplatform/domain/Signal.java
@@ -67,6 +69,7 @@
 /Applications/codebase/trade-platform-api-new/src/main/java/com/tradingplatform/exit/ExitStrategyService.java
 /Applications/codebase/trade-platform-api-new/src/main/java/com/tradingplatform/exit/ExitTrigger.java
 /Applications/codebase/trade-platform-api-new/src/main/java/com/tradingplatform/market/OptionDataService.java
+/Applications/codebase/trade-platform-api-new/src/main/java/com/tradingplatform/notification/NotificationService.java
 /Applications/codebase/trade-platform-api-new/src/main/java/com/tradingplatform/position/FundValidationResult.java
 /Applications/codebase/trade-platform-api-new/src/main/java/com/tradingplatform/position/IndexLotSize.java
 /Applications/codebase/trade-platform-api-new/src/main/java/com/tradingplatform/position/PositionSize.java
@@ -76,6 +79,7 @@
 /Applications/codebase/trade-platform-api-new/src/main/java/com/tradingplatform/repository/BrokerAccountRepository.java
 /Applications/codebase/trade-platform-api-new/src/main/java/com/tradingplatform/repository/DailyPnlRepository.java
 /Applications/codebase/trade-platform-api-new/src/main/java/com/tradingplatform/repository/FundManagementRepository.java
+/Applications/codebase/trade-platform-api-new/src/main/java/com/tradingplatform/repository/NotificationRepository.java
 /Applications/codebase/trade-platform-api-new/src/main/java/com/tradingplatform/repository/PositionRepository.java
 /Applications/codebase/trade-platform-api-new/src/main/java/com/tradingplatform/repository/RiskSettingsRepository.java
 /Applications/codebase/trade-platform-api-new/src/main/java/com/tradingplatform/repository/SignalRepository.java
