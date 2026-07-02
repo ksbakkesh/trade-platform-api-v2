@@ -1,7 +1,0 @@
-/Applications/codebase/trade-platform-api-v2/src/test/java/com/tradingplatform/angelone/TotpGeneratorTest.java
-/Applications/codebase/trade-platform-api-v2/src/test/java/com/tradingplatform/exit/ExitStrategyServiceTest.java
-/Applications/codebase/trade-platform-api-v2/src/test/java/com/tradingplatform/position/PositionSizingServiceTest.java
-/Applications/codebase/trade-platform-api-v2/src/test/java/com/tradingplatform/reentry/ReEntryServiceTest.java
-/Applications/codebase/trade-platform-api-v2/src/test/java/com/tradingplatform/risk/RiskManagementServiceTest.java
-/Applications/codebase/trade-platform-api-v2/src/test/java/com/tradingplatform/signal/EntryConditionCheckerTest.java
-/Applications/codebase/trade-platform-api-v2/src/test/java/com/tradingplatform/strategy/gann/GannCalculationServiceTest.java
