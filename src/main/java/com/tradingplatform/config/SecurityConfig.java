@@ -58,6 +58,11 @@ public class SecurityConfig {
                 .requestMatchers("/api/test/**").permitAll()
                 .requestMatchers("/api/broker/**").permitAll()
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                .requestMatchers("/api/admin/**").permitAll()
+                .requestMatchers("/api/dashboard/**").permitAll()
+                .requestMatchers("/api/open-price/**").permitAll()
+                .requestMatchers("/api/permissions/**").permitAll()
+                .requestMatchers("/api/notifications/**").permitAll()
                 // Everything else requires a valid JWT
                 .anyRequest().authenticated()
             )

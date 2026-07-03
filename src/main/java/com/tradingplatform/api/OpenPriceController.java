@@ -32,25 +32,28 @@ public class OpenPriceController {
     /** Get today's open prices for current user */
     @GetMapping("/today")
     public ResponseEntity<?> getTodayOpenPrices(Authentication auth) {
+        java.util.HashMap<String, Object> result = new java.util.HashMap<>();
+        result.put("nifty", null);
+        result.put("sensex", null);
+
+        if (auth == null) return ResponseEntity.ok(result);
         Long accountId = getAccountId(auth);
-        if (accountId == null) return ResponseEntity.notFound().build();
+        if (accountId == null) return ResponseEntity.ok(result);
 
         LocalDate today = LocalDate.now();
-        var nifty = openPriceRepository.findByBrokerAccountIdAndIndexNameAndTradeDate(accountId, "NIFTY", today);
-        var sensex = openPriceRepository.findByBrokerAccountIdAndIndexNameAndTradeDate(accountId, "SENSEX", today);
-
-        return ResponseEntity.ok(Map.of(
-                "nifty", nifty.map(p -> Map.of(
+        openPriceRepository.findByBrokerAccountIdAndIndexNameAndTradeDate(accountId, "NIFTY", today)
+                .ifPresent(p -> result.put("nifty", Map.of(
                         "openPrice", p.getOpenPrice(),
                         "source", p.getSource(),
                         "fetchedAt", p.getFetchedAt().toString()
-                )).orElse(null),
-                "sensex", sensex.map(p -> Map.of(
+                )));
+        openPriceRepository.findByBrokerAccountIdAndIndexNameAndTradeDate(accountId, "SENSEX", today)
+                .ifPresent(p -> result.put("sensex", Map.of(
                         "openPrice", p.getOpenPrice(),
                         "source", p.getSource(),
                         "fetchedAt", p.getFetchedAt().toString()
-                )).orElse(null)
-        ));
+                )));
+        return ResponseEntity.ok(result);
     }
 
     /** Manually save open price (when user enters it on dashboard) */

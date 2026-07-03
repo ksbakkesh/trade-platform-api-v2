@@ -56,5 +56,7 @@ angelone:
   mac-address: ${ANGELONE_MAC_ADDRESS:fe80::216e:6507:4b90:3719}
 
 logging:
+  file:
+    name: /tmp/trading.log
   level:
     com.tradingplatform: DEBUG
