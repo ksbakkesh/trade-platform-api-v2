@@ -17,15 +17,15 @@ public enum GannConstants {
     NIFTY(
             IndexName.NIFTY,
             new BigDecimal("0.01562"),   // offset added/subtracted from sqrt(open) for Buy Above / Sell Below
-            new BigDecimal("200"),       // CE strike adjustment
+            new BigDecimal("100"),       // CE strike adjustment
             new BigDecimal("200"),       // PE strike adjustment
             new BigDecimal("60")         // points subtracted from open price for spot stop loss
     ),
     SENSEX(
             IndexName.SENSEX,
             new BigDecimal("0.3124"),
-            new BigDecimal("500"),
-            new BigDecimal("500"),
+            new BigDecimal("400"),
+            new BigDecimal("400"),
             new BigDecimal("60")
     );
 
