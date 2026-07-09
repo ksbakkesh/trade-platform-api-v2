@@ -81,7 +81,7 @@ public class AngelOneAuthClient {
                 .uri(LOGIN_PATH)
                 .header("X-UserType", "USER")
                 .header("X-SourceID", "WEB")
-                .header("apikey", account.getApiKey())
+                .header("X-PrivateKey", account.getApiKey())
                 .body(body)
                 .retrieve()
                 .body(new org.springframework.core.ParameterizedTypeReference<

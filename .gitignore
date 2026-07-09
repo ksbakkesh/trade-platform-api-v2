@@ -2,3 +2,5 @@
 target/
 .env
 target/
+AngelOneMarketClient.java.bak
+.DS_Store

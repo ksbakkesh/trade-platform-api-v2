@@ -179,8 +179,8 @@ public class TradingScheduler {
         }
 
         // Step 3: fetch live spot prices
-        BigDecimal niftySpot  = fetchSpotPrice("NSE", NIFTY_SPOT_TOKEN,  "NIFTY");
-        BigDecimal sensexSpot = fetchSpotPrice("BSE", SENSEX_SPOT_TOKEN, "SENSEX");
+        BigDecimal niftySpot  = fetchSpotPrice(account.getId(), "NSE", NIFTY_SPOT_TOKEN, "NIFTY");
+        BigDecimal sensexSpot = fetchSpotPrice(account.getId(), "BSE", SENSEX_SPOT_TOKEN, "SENSEX");
 
         // Step 4: cache open prices at 9:15 AM and save to DB
         if (isOpeningCandle) {
@@ -256,7 +256,7 @@ public class TradingScheduler {
         }
 
         // Fetch REAL option data from Angel One
-        MarketSnapshot snapshot = optionDataService.fetchOptionData(index, direction, strike, spotPrice);
+        MarketSnapshot snapshot = optionDataService.fetchOptionData(account.getId(), index, direction, strike, spotPrice);
 
         Signal signal = signalGenerationService.generate(
                 account, index, openPrice, spotPrice,
@@ -266,7 +266,7 @@ public class TradingScheduler {
                 account.getId(), index, signal.getStatus(), signal.getRejectionReason());
 
         if (signal.getStatus() == SignalStatus.GENERATED) {
-            BigDecimal capital = fetchAvailableCapital();
+            BigDecimal capital = fetchAvailableCapital(account.getId());
             TradeExecutionResult result = tradeExecutionService.execute(
                     signal, account, snapshot.ltp(), capital, false, false);
 
@@ -295,7 +295,7 @@ public class TradingScheduler {
                 if (position == null) continue;
 
                 // Fetch current LTP of the option from Angel One
-                BigDecimal ltp = fetchOptionLtp(trade.getSymbolToken());
+                BigDecimal ltp = fetchOptionLtp(account.getId(), trade.getSymbolToken());
                 if (ltp == null) {
                     // Fallback: use spot price as proxy if option LTP unavailable
                     ltp = trade.getIndexName() == IndexName.SENSEX ? sensexSpot : niftySpot;
@@ -337,11 +337,11 @@ public class TradingScheduler {
         BigDecimal strike = optionType == com.tradingplatform.domain.enums.OptionType.CE
                 ? levels.ceStrike() : levels.peStrike();
 
-        MarketSnapshot snapshot = optionDataService.fetchOptionData(
+        MarketSnapshot snapshot = optionDataService.fetchOptionData(account.getId(), 
                 trade.getIndexName(), optionType, strike, spotPrice);
 
         ReEntryResult reEntry = reEntryService.evaluate(
-                exitResult, trade, account, openPrice, spotPrice, snapshot, fetchAvailableCapital());
+                exitResult, trade, account, openPrice, spotPrice, snapshot, fetchAvailableCapital(account.getId()));
 
         if (reEntry.allowed()) {
             log.info("[Account {}][{}] Re-entry allowed — generating new signal",
@@ -364,7 +364,7 @@ public class TradingScheduler {
                 Position position = positionRepository.findByTradeId(trade.getId()).orElse(null);
                 if (position == null) continue;
 
-                BigDecimal ltp = fetchOptionLtp(trade.getSymbolToken());
+                BigDecimal ltp = fetchOptionLtp(account.getId(), trade.getSymbolToken());
                 exitStrategyService.forceSquareOff(trade, position, ltp != null ? ltp : BigDecimal.ZERO);
                 log.info("[Account {}] Squared off: {}", account.getId(), trade.getTradingSymbol());
             } catch (Exception e) {
@@ -374,9 +374,9 @@ public class TradingScheduler {
         }
     }
 
-    private BigDecimal fetchSpotPrice(String exchange, String token, String label) {
+    private BigDecimal fetchSpotPrice(Long brokerAccountId, String exchange, String token, String label) {
         try {
-            QuoteResponse quote = marketClient.getQuote(exchange, List.of(token), "LTP");
+            QuoteResponse quote = marketClient.getQuote(brokerAccountId, exchange, List.of(token), "LTP");
             if (quote != null && quote.getFetched() != null && !quote.getFetched().isEmpty()) {
                 Double ltp = quote.getFetched().get(0).getLtp();
                 if (ltp != null) return BigDecimal.valueOf(ltp);
@@ -387,10 +387,10 @@ public class TradingScheduler {
         return null;
     }
 
-    private BigDecimal fetchOptionLtp(String symbolToken) {
+    private BigDecimal fetchOptionLtp(Long brokerAccountId, String symbolToken) {
         if (symbolToken == null) return null;
         try {
-            QuoteResponse quote = marketClient.getQuote("NFO", List.of(symbolToken), "LTP");
+            QuoteResponse quote = marketClient.getQuote(brokerAccountId, "NFO", List.of(symbolToken), "LTP");
             if (quote != null && quote.getFetched() != null && !quote.getFetched().isEmpty()) {
                 Double ltp = quote.getFetched().get(0).getLtp();
                 if (ltp != null) return BigDecimal.valueOf(ltp);
@@ -401,9 +401,9 @@ public class TradingScheduler {
         return null;
     }
 
-    private BigDecimal fetchAvailableCapital() {
+    private BigDecimal fetchAvailableCapital(Long brokerAccountId) {
         try {
-            var funds = marketClient.getFunds();
+            var funds = marketClient.getFunds(brokerAccountId);
             if (funds != null && funds.getAvailableCash() != null) {
                 return new BigDecimal(funds.getAvailableCash());
             }

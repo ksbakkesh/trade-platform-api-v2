@@ -8,9 +8,9 @@
 - Or entered manually on dashboard
 
 ### Gann Level Calculation
-NIFTY (offset = 0.01562, lot = 75, strike adj = 50):
-- Buy Above = (√openPrice + 0.01562)²
-- Sell Below = (√openPrice - 0.01562)²
+NIFTY (offset = 0.1562, lot = 75, strike adj = 50):
+- Buy Above = (√openPrice + 0.1562)²
+- Sell Below = (√openPrice - 0.1562)²
 
 SENSEX (offset = 0.3124, lot = 10, strike adj = 100):
 - Buy Above = (√openPrice + 0.3124)²

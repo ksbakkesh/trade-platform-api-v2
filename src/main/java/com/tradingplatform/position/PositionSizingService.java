@@ -192,7 +192,7 @@ public class PositionSizingService {
      * in fund_management for historical reporting (BRD Section 13).
      */
     private FundManagement fetchAndPersistFunds(BrokerAccount brokerAccount) {
-        var fundsData = marketClient.getFunds();
+        var fundsData = marketClient.getFunds(brokerAccount.getId());
 
         BigDecimal availableCash = parseSafely(fundsData.getAvailableCash());
         BigDecimal availableMargin = parseSafely(fundsData.getAvailableIntradayPayin());

@@ -16,7 +16,7 @@ public enum GannConstants {
 
     NIFTY(
             IndexName.NIFTY,
-            new BigDecimal("0.01562"),   // offset added/subtracted from sqrt(open) for Buy Above / Sell Below
+            new BigDecimal("0.1562"),   // offset added/subtracted from sqrt(open) for Buy Above / Sell Below
             new BigDecimal("100"),       // CE strike adjustment
             new BigDecimal("200"),       // PE strike adjustment
             new BigDecimal("60")         // points subtracted from open price for spot stop loss

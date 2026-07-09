@@ -15,7 +15,7 @@ com.tradingplatform/
 ├── position/       PositionSizingService, PositionSize
 ├── market/         OptionDataService (real option LTP/delta/RSI from Angel One)
 ├── notification/   NotificationService (in-app bell alerts)
-├── strategy/gann/  GannCalculationService (NIFTY offset=0.01562, SENSEX offset=0.3124)
+├── strategy/gann/  GannCalculationService (NIFTY offset=0.1562, SENSEX offset=0.3124)
 ├── domain/         JPA entities (User, BrokerAccount, Trade, Position, Signal, StrategySettings, RiskSettings, Notification, UserPermissions)
 ├── repository/     Spring Data JPA repositories
 ├── config/         SecurityConfig (JWT + permitAll routes), AngelOneConfig
@@ -104,7 +104,7 @@ Per cycle per account:
 9. Save notification for each event
 
 ## Gann Calculation
-- NIFTY: offset = 0.01562, lot size = 75, strike adj = 50
+- NIFTY: offset = 0.1562, lot size = 75, strike adj = 50
 - SENSEX: offset = 0.3124, lot size = 10, strike adj = 100
 - Buy Above = (√openPrice + offset)² 
 - Sell Below = (√openPrice - offset)²

@@ -139,7 +139,7 @@ PE Strike   = ROUND(Sell Below + 100, -2) - strikeAdjustment
 ```
 
 Lives in `strategy/gann/`:
-- `GannConstants.java` — the fixed per-index coefficients (offset 0.01562 for NIFTY
+- `GannConstants.java` — the fixed per-index coefficients (offset 0.1562 for NIFTY
   vs 0.3124 for SENSEX, strike adjustment 200 vs 500). These come straight from the
   BRD's formulas and are NOT the same as `StrategySettings`' admin-configurable
   thresholds (premium, RSI, stop loss, targets) — these are structural to the formula.

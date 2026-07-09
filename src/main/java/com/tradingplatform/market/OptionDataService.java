@@ -64,7 +64,7 @@ public class OptionDataService {
      * @param spotPrice  current spot price (for delta estimation)
      * @return MarketSnapshot with real LTP, volume, estimated RSI and delta
      */
-    public MarketSnapshot fetchOptionData(IndexName index, OptionType optionType,
+    public MarketSnapshot fetchOptionData(Long brokerAccountId, IndexName index, OptionType optionType,
                                            BigDecimal strike, BigDecimal spotPrice) {
         String tradingSymbol = buildTradingSymbol(index, strike, optionType);
         log.info("[{}] Fetching option data for: {}", index, tradingSymbol);
@@ -72,7 +72,7 @@ public class OptionDataService {
         try {
             // Fetch live quote from Angel One
             // Angel One NFO exchange for options
-            QuoteResponse quote = marketClient.getQuote(
+            QuoteResponse quote = marketClient.getQuote(brokerAccountId, 
                     "NFO", List.of(tradingSymbol), "FULL");
 
             if (quote == null || quote.getFetched() == null || quote.getFetched().isEmpty()) {
