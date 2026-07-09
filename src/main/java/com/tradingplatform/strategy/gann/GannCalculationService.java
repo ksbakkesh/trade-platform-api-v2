@@ -48,10 +48,11 @@ public class GannCalculationService {
 
         BigDecimal spotStopLoss = openPrice.subtract(constants.getSpotStopLossPoints());
 
-        BigDecimal ceStrike = GannRounding.roundToNearestHundred(buyAboveRaw.subtract(ONE_HUNDRED))
-                .add(constants.getCeStrikeAdjustment());
-        BigDecimal peStrike = GannRounding.roundToNearestHundred(sellBelowRaw.add(ONE_HUNDRED))
-                .subtract(constants.getPeStrikeAdjustment());
+        // CE Strike = CEILING(buyAbove, 100) — nearest 100 above Buy Above (Excel logic)
+        BigDecimal ceStrike = buyAboveRaw.divide(ONE_HUNDRED, 0, RoundingMode.CEILING).multiply(ONE_HUNDRED);
+
+        // PE Strike = FLOOR(sellBelow, 100) — nearest 100 below Sell Below (Excel logic)
+        BigDecimal peStrike = sellBelowRaw.divide(ONE_HUNDRED, 0, RoundingMode.FLOOR).multiply(ONE_HUNDRED);
 
         return new GannLevels(
                 indexName,
