@@ -67,6 +67,7 @@ public class PermissionsController {
                 Map.entry("riskManagement",   p.isRiskManagement()),
                 Map.entry("fundsMargin",      p.isFundsMargin()),
                 Map.entry("brokerSetup",      p.isBrokerSetup()),
+                Map.entry("strategySetup",    p.isStrategySetup()),
                 Map.entry("strategySettings", p.isStrategySettings()),
                 Map.entry("configuration",    p.isConfiguration()),
                 Map.entry("logs",             p.isLogs()),
@@ -85,6 +86,7 @@ public class PermissionsController {
         if (m.containsKey("riskManagement"))   p.setRiskManagement(m.get("riskManagement"));
         if (m.containsKey("fundsMargin"))      p.setFundsMargin(m.get("fundsMargin"));
         if (m.containsKey("brokerSetup"))      p.setBrokerSetup(m.get("brokerSetup"));
+        if (m.containsKey("strategySetup"))    p.setStrategySetup(m.get("strategySetup"));
         if (m.containsKey("strategySettings")) p.setStrategySettings(m.get("strategySettings"));
         if (m.containsKey("configuration"))    p.setConfiguration(m.get("configuration"));
         if (m.containsKey("logs"))             p.setLogs(m.get("logs"));
@@ -98,7 +100,7 @@ public class PermissionsController {
                 Map.entry("liveSignals", true), Map.entry("positions", true),
                 Map.entry("tradeHistory", true), Map.entry("orders", false),
                 Map.entry("riskManagement", true), Map.entry("fundsMargin", false),
-                Map.entry("brokerSetup", false), Map.entry("strategySettings", false),
+                Map.entry("brokerSetup", false), Map.entry("strategySetup", true), Map.entry("strategySettings", false),
                 Map.entry("configuration", false), Map.entry("logs", false),
                 Map.entry("reports", false), Map.entry("userManagement", false)
         );

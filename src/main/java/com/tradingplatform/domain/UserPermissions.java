@@ -24,6 +24,7 @@ public class UserPermissions {
     @Column(name = "perm_risk_management",   nullable = false) private boolean riskManagement   = true;
     @Column(name = "perm_funds_margin",      nullable = false) private boolean fundsMargin      = false;
     @Column(name = "perm_broker_setup",      nullable = false) private boolean brokerSetup      = false;
+    @Column(name = "perm_strategy_setup",    nullable = false) private boolean strategySetup    = true;
     @Column(name = "perm_strategy_settings", nullable = false) private boolean strategySettings = false;
     @Column(name = "perm_configuration",     nullable = false) private boolean configuration    = false;
     @Column(name = "perm_logs",              nullable = false) private boolean logs             = false;
@@ -54,6 +55,8 @@ public class UserPermissions {
     public void setFundsMargin(boolean v) { fundsMargin = v; }
     public boolean isBrokerSetup() { return brokerSetup; }
     public void setBrokerSetup(boolean v) { brokerSetup = v; }
+    public boolean isStrategySetup() { return strategySetup; }
+    public void setStrategySetup(boolean v) { strategySetup = v; }
     public boolean isStrategySettings() { return strategySettings; }
     public void setStrategySettings(boolean v) { strategySettings = v; }
     public boolean isConfiguration() { return configuration; }

@@ -1,0 +1,2 @@
+ALTER TABLE user_permissions
+ADD COLUMN IF NOT EXISTS perm_strategy_setup BOOLEAN NOT NULL DEFAULT TRUE;
