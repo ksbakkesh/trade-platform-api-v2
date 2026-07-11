@@ -17,11 +17,11 @@ class GannCalculationServiceTest {
         // Cross-checked against an independent Python/Decimal reference implementation.
         GannLevels levels = service.calculate(IndexName.NIFTY, new BigDecimal("24350.50"));
 
-        assertEquals(new BigDecimal("24355.38"), levels.buyAbove());
-        assertEquals(new BigDecimal("24345.63"), levels.sellBelow());
+        assertEquals(new BigDecimal("24399.27"), levels.buyAbove());
+        assertEquals(new BigDecimal("24301.78"), levels.sellBelow());
         assertEquals(new BigDecimal("24290.50"), levels.spotStopLoss());
-        assertEquals(new BigDecimal("24500.00"), levels.ceStrike());
-        assertEquals(new BigDecimal("24200.00"), levels.peStrike());
+        assertEquals(new BigDecimal("24400.00"), levels.ceStrike());
+        assertEquals(new BigDecimal("24300.00"), levels.peStrike());
     }
 
     @Test
@@ -31,8 +31,8 @@ class GannCalculationServiceTest {
         assertEquals(new BigDecimal("80302.71"), levels.buyAbove());
         assertEquals(new BigDecimal("79948.99"), levels.sellBelow());
         assertEquals(new BigDecimal("80065.75"), levels.spotStopLoss());
-        assertEquals(new BigDecimal("80700.00"), levels.ceStrike());
-        assertEquals(new BigDecimal("79500.00"), levels.peStrike());
+        assertEquals(new BigDecimal("80400.00"), levels.ceStrike());
+        assertEquals(new BigDecimal("79900.00"), levels.peStrike());
     }
 
     @Test

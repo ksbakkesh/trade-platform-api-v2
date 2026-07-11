@@ -274,6 +274,6 @@ class PositionSizingServiceTest {
         FundsResponse funds = new FundsResponse();
         funds.setAvailableCash(availableCash);
         funds.setAvailableIntradayPayin(availableMargin);
-        when(marketClient.getFunds()).thenReturn(funds);
+        when(marketClient.getFunds(anyLong())).thenReturn(funds);
     }
 }
