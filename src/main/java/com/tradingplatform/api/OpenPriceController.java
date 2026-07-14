@@ -89,5 +89,27 @@ public class OpenPriceController {
                 .orElse(null);
     }
 
+
+    /** Save open price for ALL active broker accounts (called by ADMIN) */
+    @PostMapping("/broadcast")
+    public ResponseEntity<?> broadcastOpenPrice(@RequestBody ManualOpenPriceRequest req) {
+        LocalDate today = LocalDate.now();
+        java.util.List<BrokerAccount> accounts = brokerAccountRepository.findAll().stream()
+                .filter(BrokerAccount::isActive).toList();
+        for (BrokerAccount account : accounts) {
+            DailyOpenPrice price = openPriceRepository
+                    .findByBrokerAccountIdAndIndexNameAndTradeDate(account.getId(), req.indexName(), today)
+                    .orElse(new DailyOpenPrice());
+            price.setBrokerAccount(account);
+            price.setIndexName(req.indexName());
+            price.setOpenPrice(req.openPrice());
+            price.setTradeDate(today);
+            price.setSource("MANUAL");
+            openPriceRepository.save(price);
+        }
+        return ResponseEntity.ok(Map.of("message", "Open price broadcast to " + accounts.size() + " accounts"));
+    }
+
+
     public record ManualOpenPriceRequest(String indexName, BigDecimal openPrice) {}
 }
