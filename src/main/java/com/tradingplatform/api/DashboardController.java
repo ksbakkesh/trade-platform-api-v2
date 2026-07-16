@@ -67,6 +67,19 @@ public class DashboardController {
         }
     }
 
+    @GetMapping("/quote-raw")
+    public ResponseEntity<?> getQuoteRaw(@RequestParam String exchange,
+                                          @RequestParam String token,
+                                          @RequestParam String mode,
+                                          Authentication auth) {
+        try {
+            BrokerAccount account = resolveAccount(auth);
+            return ResponseEntity.ok(marketClient.getRawQuote(account.getId(), exchange, token, mode));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+        }
+    }
+
     @GetMapping("/quote")
     public ResponseEntity<?> getQuote(@RequestParam String exchange,
                                        @RequestParam String token,

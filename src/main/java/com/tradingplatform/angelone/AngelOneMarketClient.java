@@ -41,6 +41,21 @@ public class AngelOneMarketClient {
     // ─── PER-ACCOUNT METHODS (use these everywhere) ───────────────────────
 
 
+
+    public String getRawQuote(Long brokerAccountId, String exchange, String token, String mode) {
+        authClient.ensureLoggedIn(brokerAccountId);
+        com.tradingplatform.angelone.dto.QuoteRequest body = new com.tradingplatform.angelone.dto.QuoteRequest(mode, java.util.Map.of(exchange, java.util.List.of(token)));
+        return restClient.post()
+                .uri(QUOTE_PATH)
+                .header("Authorization", "Bearer " + tokenStore.getJwtToken(brokerAccountId))
+                .header("X-PrivateKey", getApiKey(brokerAccountId))
+                .header("X-UserType", "USER")
+                .header("X-SourceID", "WEB")
+                .body(body)
+                .retrieve()
+                .body(String.class);
+    }
+
     public String getRawFunds(Long brokerAccountId) {
         authClient.ensureLoggedIn(brokerAccountId);
         return restClient.get()
