@@ -154,6 +154,31 @@ public class TradingScheduler {
 
         log.info("Processing {} active account(s)", accounts.size());
 
+        // Fetch shared spot prices once using first available account
+        // NIFTY and SENSEX open prices are the same for all accounts
+        BigDecimal sharedNiftySpot = null;
+        BigDecimal sharedSensexSpot = null;
+        if (isOpeningCandle && !accounts.isEmpty()) {
+            BrokerAccount first = accounts.get(0);
+            try {
+                sharedNiftySpot = fetchSpotPrice(first.getId(), "NSE", NIFTY_SPOT_TOKEN, "NIFTY");
+                sharedSensexSpot = fetchSpotPrice(first.getId(), "BSE", SENSEX_SPOT_TOKEN, "SENSEX");
+                log.info("Shared open prices fetched — NIFTY={} SENSEX={}", sharedNiftySpot, sharedSensexSpot);
+                // Broadcast open prices to all accounts
+                if (sharedNiftySpot != null || sharedSensexSpot != null) {
+                    for (BrokerAccount account : accounts) {
+                        if (sharedNiftySpot != null) saveOpenPrice(account, "NIFTY", sharedNiftySpot, "AUTO");
+                        if (sharedSensexSpot != null) saveOpenPrice(account, "SENSEX", sharedSensexSpot, "AUTO");
+                        openPriceCache.put(key(account.getId(), "NIFTY"), sharedNiftySpot != null ? sharedNiftySpot : BigDecimal.ZERO);
+                        openPriceCache.put(key(account.getId(), "SENSEX"), sharedSensexSpot != null ? sharedSensexSpot : BigDecimal.ZERO);
+                    }
+                    log.info("Open prices broadcast to {} accounts", accounts.size());
+                }
+            } catch (Exception e) {
+                log.warn("Could not fetch shared spot prices: {}", e.getMessage());
+            }
+        }
+
         for (BrokerAccount account : accounts) {
             try {
                 processAccount(account, isOpeningCandle, isSquareOff);
