@@ -114,14 +114,20 @@ public class AngelOneMarketClient {
                                    List<String> symbolTokens, String mode) {
         authClient.ensureLoggedIn(brokerAccountId);
         QuoteRequest body = new QuoteRequest(mode, Map.of(exchange, symbolTokens));
-        AngelOneApiResponse<QuoteResponse> response = restClient.post()
+        AngelOneApiResponse<java.util.LinkedHashMap<String, Object>> response = restClient.post()
                 .uri(QUOTE_PATH)
                 .header("Authorization", "Bearer " + tokenStore.getJwtToken(brokerAccountId))
+                .header("X-PrivateKey", getApiKey(brokerAccountId))
+                .header("X-UserType", "USER")
+                .header("X-SourceID", "WEB")
                 .body(body)
                 .retrieve()
                 .body(new ParameterizedTypeReference<>() {});
-        requireSuccess(response, "getQuote failed");
-        return response.getData();
+        if (response == null || !response.isStatus() || response.getData() == null) {
+            throw new AngelOneApiException("getQuote failed: " + (response != null ? response.getMessage() : "null"), "QUOTE_ERROR");
+        }
+        com.fasterxml.jackson.databind.ObjectMapper mapper = new com.fasterxml.jackson.databind.ObjectMapper();
+        return mapper.convertValue(response.getData(), QuoteResponse.class);
     }
 
     public List<Map<String, Object>> getOrderBook(Long brokerAccountId) {
