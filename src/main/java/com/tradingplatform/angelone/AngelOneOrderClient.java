@@ -35,6 +35,42 @@ public class AngelOneOrderClient {
         this.tokenStore = tokenStore;
     }
 
+
+    public com.tradingplatform.angelone.dto.OrderResponse placeOrderForAccount(Long brokerAccountId, PlaceOrderRequest order) {
+        authClient.ensureLoggedIn(brokerAccountId);
+        String jwt = tokenStore.getJwtToken(brokerAccountId);
+
+        log.info("[Account {}] Placing manual order: {} {} x{}",
+                brokerAccountId, order.getTransactiontype(), order.getTradingsymbol(), order.getQuantity());
+
+        String rawResponse;
+        try {
+            rawResponse = restClient.post()
+                    .uri(PLACE_ORDER_PATH)
+                    .header("Authorization", "Bearer " + jwt)
+                    .body(order)
+                    .retrieve()
+                    .body(String.class);
+        } catch (Exception e) {
+            throw new AngelOneApiException("placeOrder HTTP error: " + e.getMessage(), e);
+        }
+
+        try {
+            com.fasterxml.jackson.databind.ObjectMapper mapper = new com.fasterxml.jackson.databind.ObjectMapper();
+            AngelOneApiResponse<com.tradingplatform.angelone.dto.OrderResponse> response = mapper.readValue(rawResponse,
+                    mapper.getTypeFactory().constructParametricType(AngelOneApiResponse.class, com.tradingplatform.angelone.dto.OrderResponse.class));
+            if (response == null || !response.isStatus()) {
+                throw new AngelOneApiException("placeOrder failed: " + (response != null ? response.getMessage() : "null"), "ORDER_ERROR");
+            }
+            log.info("[Account {}] Order placed: orderId={}", brokerAccountId, response.getData().getOrderid());
+            return response.getData();
+        } catch (AngelOneApiException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new AngelOneApiException("Failed to parse order response: " + e.getMessage(), e);
+        }
+    }
+
     public OrderResponse placeOrder(PlaceOrderRequest order) {
         authClient.ensureLoggedIn();
 
