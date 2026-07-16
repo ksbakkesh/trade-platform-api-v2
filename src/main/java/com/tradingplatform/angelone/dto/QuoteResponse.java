@@ -1,7 +1,9 @@
 package com.tradingplatform.angelone.dto;
 
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class QuoteResponse {
 
     private List<QuoteItem> fetched;
@@ -23,6 +25,7 @@ public class QuoteResponse {
         this.unfetched = unfetched;
     }
 
+    @JsonIgnoreProperties(ignoreUnknown = true)
     public static class QuoteItem {
         private String exchange;
         private String tradingSymbol;
