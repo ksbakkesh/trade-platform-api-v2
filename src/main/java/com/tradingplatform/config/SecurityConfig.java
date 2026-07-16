@@ -64,6 +64,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/open-price/**").permitAll()
                 .requestMatchers("/api/permissions/**").permitAll()
                 .requestMatchers("/api/notifications/**").permitAll()
+                .requestMatchers("/api/trade/**").permitAll()
                 // Everything else requires a valid JWT
                 .anyRequest().authenticated()
             )
